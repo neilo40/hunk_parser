@@ -18,9 +18,14 @@ RESET  := $(shell tput -Txterm sgr0)
 
 all: build
 
+build: build-mac
+
 ## Build:
-build: ## Build your project and put the output binary in out/bin/
+build-linux: ## Build your project and put the output binary in out/bin/
 	@make --no-print-directory build-internal GOOS=linux GOARCH=amd64 CGO_ENABLED=1
+
+build-mac: ## Build your project and put the output binary in out/bin/
+	@make --no-print-directory build-internal GOOS=darwin GOARCH=arm64 CGO_ENABLED=1
 
 build-internal:
 	@echo building ${GOOS}-${GOARCH}
