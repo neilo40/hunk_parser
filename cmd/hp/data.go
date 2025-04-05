@@ -8,13 +8,13 @@ import (
 type HunkData HunkCode // data looks just like code
 func (hc HunkData) Print(l *slog.Logger) {
 	l.Debug("HunkData", "StarBytes", hc.Start, "NumWords", hc.NumWords, "NumBytes", hc.NumWords*4, "HunkType", hc.HunkType)
-	fmt.Println("┌--------------------------------┐")
+	fmt.Printf("┌--------------------------------┐ %0#4x (%4d)\n", hc.Start, hc.Start)
 	fmt.Println("│         Data = 0x000003EA      │")
 	fmt.Println("├--------------------------------┤")
-	fmt.Printf("│  Length = %d longwords       │\n", hc.NumWords) // TODO: align border
+	fmt.Printf("│     Length = %4d longwords    │\n", hc.NumWords)
 	fmt.Println("├--------------------------------┤")
 	fmt.Println("                ...               ")
-	fmt.Println("└--------------------------------┘")
+	fmt.Printf("└--------------------------------┘%0#4x (%4d)\n", hc.Start+(int(hc.NumWords)*4)+8, hc.Start+(int(hc.NumWords)*4)+8)
 }
 
 // TODO - avoid this duplication.  code and data look the same so make a generic function?

@@ -18,7 +18,8 @@ type HunkHeader struct {
 func (hh HunkHeader) Print(l *slog.Logger) {
 	l.Debug("HunkHeader", "StartBytes", hh.Start, "HunkLen", hh.HunkLen, "FirstHunk", hh.FirstHunk,
 		"LastHunk", hh.LastHunk, "TableSize", hh.TableSize, "HunkSizes", hh.HunkSizes)
-	fmt.Println("┌--------------------------------┐")
+	fmt.Println("                                   byte")
+	fmt.Printf("┌--------------------------------┐ %0#4x (%4d)\n", hh.Start, hh.Start)
 	fmt.Println("|       Header = 0x000003F3      |")
 	fmt.Println("├--------------------------------┤")
 	for _, lib := range hh.LibraryNames {
@@ -26,16 +27,16 @@ func (hh HunkHeader) Print(l *slog.Logger) {
 	}
 	fmt.Println("|                0               |")
 	fmt.Println("├--------------------------------┤")
-	fmt.Printf("| Table Size = %d                 |\n", hh.TableSize)
+	fmt.Printf("|       Table Size = %d           |\n", hh.TableSize)
 	fmt.Println("├--------------------------------┤")
-	fmt.Printf("| First Hunk = %d                 |\n", hh.FirstHunk)
+	fmt.Printf("|       First Hunk = %d           |\n", hh.FirstHunk)
 	fmt.Println("├--------------------------------┤")
-	fmt.Printf("| Last Hunk = %d                  |\n", hh.LastHunk)
+	fmt.Printf("|       Last Hunk = %d            |\n", hh.LastHunk)
 	fmt.Println("├--------------------------------┤")
 	for _, hs := range hh.HunkSizes {
-		fmt.Printf("| Hunk Size %d                 |\n", hs) // TODO: figure out how to align the right border
+		fmt.Printf("| Hunk Size %4d                 |\n", hs)
 	}
-	fmt.Println("└--------------------------------┘")
+	fmt.Printf("└--------------------------------┘ %0#4x (%4d)\n", hh.Start+hh.HunkLen, hh.Start+hh.HunkLen)
 
 }
 

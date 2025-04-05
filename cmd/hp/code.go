@@ -15,13 +15,13 @@ type HunkCode struct {
 func (hc HunkCode) Print(l *slog.Logger) {
 	l.Debug("HunkCode", "StartBytes", hc.Start, "NumWords", hc.NumWords, "NumBytes", hc.NumWords*4,
 		"HunkType", hc.HunkType)
-	fmt.Println("┌--------------------------------┐")
+	fmt.Printf("┌--------------------------------┐ %0#4x (%4d)\n", hc.Start, hc.Start)
 	fmt.Println("|         Code = 0x000003E9      |")
 	fmt.Println("├--------------------------------┤")
-	fmt.Printf("|  Length = %d longwords       |\n", hc.NumWords) // TODO: align border
+	fmt.Printf("|     Length = %4d longwords    |\n", hc.NumWords)
 	fmt.Println("├--------------------------------┤")
 	fmt.Println("                ...               ")
-	fmt.Println("└--------------------------------┘")
+	fmt.Printf("└--------------------------------┘ %0#4x (%4d)\n", hc.Start+(int(hc.NumWords)*4)+8, hc.Start+(int(hc.NumWords)*4)+8)
 	// TODO: write the code section somwehere so we can disassemble it
 
 }

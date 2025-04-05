@@ -18,25 +18,33 @@ type Reloc32 struct {
 }
 
 func (hr HunkReloc32) Print(l *slog.Logger) {
+	start := hr.Relocs[0].Start
 	for _, r := range hr.Relocs {
 		l.Debug("HunkReloc32", "StartBytes", r.Start, "NumOffsets", r.NumOffsets, "HunkType", r.HunkType, "HunkNum", r.HunkNum, "Offsets", r.Offsets)
 	}
-	fmt.Println("┌--------------------------------┐")
+	fmt.Printf("┌--------------------------------┐ %0#4x (%4d)\n", start, start)
 	fmt.Println("|       Reloc32 = 0x000003EC     |")
 	fmt.Println("├--------------------------------┤")
+	end := start + 4
 	for i, r := range hr.Relocs {
-		fmt.Printf("| Reloc %d                        |\n", i+1)
+		fmt.Printf("|       Reloc %d                  |\n", i+1)
 		fmt.Println("├--------------------------------┤")
-		fmt.Printf("| Hunk Number %d                  |\n", r.HunkNum)
+		fmt.Printf("|       Hunk Number %d            |\n", r.HunkNum)
 		fmt.Println("├--------------------------------┤")
+		end += 8
 		for _, o := range r.Offsets {
-			fmt.Printf("| Offset %d                     |\n", o) // TODO: alignment
+			fmt.Printf("| Offset %4d                    |\n", o)
+			end++
 		}
 		if i < len(hr.Relocs)-1 {
 			fmt.Println("├--------------------------------┤")
 		}
 	}
-	fmt.Println("└--------------------------------┘")
+	fmt.Println("├--------------------------------┤")
+	fmt.Println("|               0                |")
+	fmt.Println("├--------------------------------┤")
+	fmt.Println("|         END = 0x000003F2       |")
+	fmt.Printf("└--------------------------------┘ %0#4x(%4d)\n", end+8, end+8)
 }
 
 func (hp *HunkParser) readHunkReloc32(i int) (int, error) {

@@ -18,6 +18,8 @@ func (hb HunkBSS) Print(l *slog.Logger) {
 	fmt.Printf("|  Length = %d longwords       |\n", hb.BlockSize) // TODO: align border
 	fmt.Println("├--------------------------------┤")
 	fmt.Println("                ...               ")
+	fmt.Println("├--------------------------------┤")
+	fmt.Println("|         END = 0x000003F2       |") // TODO: is this here because end of BSS, or end of hunk file?
 	fmt.Println("└--------------------------------┘")
 }
 
